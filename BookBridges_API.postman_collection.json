@@ -1,0 +1,1133 @@
+{
+    "info": {
+        "_postman_id": "book-bridges-api-v1",
+        "name": "📚 Book Bridges API",
+        "description": "Complete Postman collection for the Book Bridges Spring Boot backend.\n\n**Setup:**\n1. Set the `baseUrl` variable to `http://localhost:8080`\n2. Run `POST /api/auth/login` or `POST /api/auth/register` first\n3. The login/register requests auto-set the `token` variable via the Test script\n4. All protected endpoints will automatically use the saved token",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:8080",
+            "type": "string"
+        },
+        {
+            "key": "token",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "userId",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "bookId",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "transactionId",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "exchangeId",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "conversationId",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "notificationId",
+            "value": "1",
+            "type": "string"
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "{{token}}",
+                "type": "string"
+            }
+        ]
+    },
+    "item": [
+        {
+            "name": "🔐 Authentication",
+            "item": [
+                {
+                    "name": "Register",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 200 || pm.response.code === 201) {",
+                                    "  var json = pm.response.json();",
+                                    "  pm.collectionVariables.set('token', json.token);",
+                                    "  pm.collectionVariables.set('userId', json.user.id);",
+                                    "  console.log('Token saved:', json.token.substring(0, 30) + '...');",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/auth/register",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Alex Student\",\n  \"email\": \"alex@university.edu\",\n  \"password\": \"password123\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Login",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 200) {",
+                                    "  var json = pm.response.json();",
+                                    "  pm.collectionVariables.set('token', json.token);",
+                                    "  pm.collectionVariables.set('userId', json.user.id);",
+                                    "  console.log('Logged in as:', json.user.email, '| Role:', json.user.role);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/auth/login",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"alex@university.edu\",\n  \"password\": \"password123\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Login as Admin",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 200) {",
+                                    "  var json = pm.response.json();",
+                                    "  pm.collectionVariables.set('token', json.token);",
+                                    "  pm.collectionVariables.set('userId', json.user.id);",
+                                    "  console.log('Admin logged in:', json.user.email);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/auth/login",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"admin@bookbridges.com\",\n  \"password\": \"adminpass123\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Get Current User (me)",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/auth/me"
+                    }
+                },
+                {
+                    "name": "Logout",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.collectionVariables.set('token', '');",
+                                    "console.log('Token cleared');"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "url": "{{baseUrl}}/api/auth/logout"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "👤 Users",
+            "item": [
+                {
+                    "name": "Get My Profile",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/users/profile"
+                    }
+                },
+                {
+                    "name": "Update My Profile",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/users/profile",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Alexander Student\",\n  \"bio\": \"Computer Science junior. Looking to trade textbooks!\",\n  \"avatarUrl\": \"https://example.com/avatars/alex.jpg\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Change Password",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/users/security/password",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"currentPassword\": \"password123\",\n  \"newPassword\": \"newpassword456\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Get Public Profile by ID",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/users/{{userId}}"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "📚 Books",
+            "item": [
+                {
+                    "name": "Browse All Books",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{baseUrl}}/api/books?page=0&size=12&sort=createdAt,desc",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "books"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "12"
+                                },
+                                {
+                                    "key": "sort",
+                                    "value": "createdAt,desc"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Browse Books — Filter by Type (SALE)",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{baseUrl}}/api/books?type=SALE&page=0&size=10",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "books"
+                            ],
+                            "query": [
+                                {
+                                    "key": "type",
+                                    "value": "SALE"
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "10"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Browse Books — Filter by Condition + Category",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{baseUrl}}/api/books?condition=GOOD&category=Computer Science&page=0",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "books"
+                            ],
+                            "query": [
+                                {
+                                    "key": "condition",
+                                    "value": "GOOD"
+                                },
+                                {
+                                    "key": "category",
+                                    "value": "Computer Science"
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Search Books by Keyword",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{baseUrl}}/api/books?search=calculus&page=0",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "books"
+                            ],
+                            "query": [
+                                {
+                                    "key": "search",
+                                    "value": "calculus"
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Book by ID",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/books/{{bookId}}"
+                    }
+                },
+                {
+                    "name": "Get My Listings (All)",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/books/my-listings"
+                    }
+                },
+                {
+                    "name": "Get My Listings — Filter ACTIVE",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{baseUrl}}/api/books/my-listings?status=ACTIVE",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "books",
+                                "my-listings"
+                            ],
+                            "query": [
+                                {
+                                    "key": "status",
+                                    "value": "ACTIVE"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Book Listing (SALE)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 201) {",
+                                    "  pm.collectionVariables.set('bookId', pm.response.json().id);",
+                                    "  console.log('Book created with ID:', pm.response.json().id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/books",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Introduction to Algorithms (4th Edition)\",\n  \"author\": \"Cormen, Leiserson, Rivest\",\n  \"isbn\": \"9780262046305\",\n  \"description\": \"Classic algorithms textbook. Minor highlighting in chapters 1-3.\",\n  \"price\": 45.00,\n  \"condition\": \"GOOD\",\n  \"category\": \"Computer Science\",\n  \"courseCode\": \"CS301\",\n  \"transactionType\": \"SALE\",\n  \"imageUrl\": \"https://example.com/images/clrs.jpg\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Create Book Listing (DONATION)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/books",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Engineering Mathematics\",\n  \"author\": \"K.A. Stroud\",\n  \"isbn\": \"9781352010099\",\n  \"description\": \"Donating — no longer need this. Good condition.\",\n  \"price\": 0,\n  \"condition\": \"LIKE_NEW\",\n  \"category\": \"Mathematics\",\n  \"transactionType\": \"DONATION\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Create Book Listing (EXCHANGE)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/books",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Operating System Concepts (10th Edition)\",\n  \"author\": \"Silberschatz, Galvin\",\n  \"isbn\": \"9781119456339\",\n  \"description\": \"Looking to trade for a Networking textbook.\",\n  \"price\": 0,\n  \"condition\": \"FAIR\",\n  \"category\": \"Computer Science\",\n  \"courseCode\": \"CS402\",\n  \"transactionType\": \"EXCHANGE\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Update Book Listing",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/books/{{bookId}}",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"price\": 38.00,\n  \"description\": \"Price reduced! Minor highlights only.\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Book Listing",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{baseUrl}}/api/books/{{bookId}}"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "💳 Transactions",
+            "item": [
+                {
+                    "name": "Checkout — Buy a Book",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 201 || pm.response.code === 200) {",
+                                    "  pm.collectionVariables.set('transactionId', pm.response.json().transactionId || pm.response.json().id);",
+                                    "  console.log('Transaction ID:', pm.collectionVariables.get('transactionId'));",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/transactions/checkout",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"bookId\": {{bookId}},\n  \"shippingAddress\": \"123 Campus Drive, Apt 4B, College Town, ST 12345\",\n  \"paymentMethod\": \"CREDIT_CARD\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Get My Purchases",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{baseUrl}}/api/transactions/purchases?page=0&size=10",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "transactions",
+                                "purchases"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "10"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get My Sales",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{baseUrl}}/api/transactions/sales?page=0&size=10",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "transactions",
+                                "sales"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "10"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Transaction by ID",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/transactions/{{transactionId}}"
+                    }
+                },
+                {
+                    "name": "Update Transaction Status — SHIPPED",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/transactions/{{transactionId}}/status",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"status\": \"SHIPPED\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Update Transaction Status — DELIVERED",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/transactions/{{transactionId}}/status",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"status\": \"DELIVERED\"\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "🔄 Exchanges",
+            "item": [
+                {
+                    "name": "Propose Exchange",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 201 || pm.response.code === 200) {",
+                                    "  pm.collectionVariables.set('exchangeId', pm.response.json().id);",
+                                    "  console.log('Exchange ID:', pm.response.json().id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/exchanges/propose",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"offeredBookId\": 1,\n  \"requestedBookId\": 2,\n  \"message\": \"Hi! I'd love to trade my Algorithms textbook for your OS book. Both in good condition!\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Get My Exchanges",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/exchanges"
+                    }
+                },
+                {
+                    "name": "Get Exchange by ID",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/exchanges/{{exchangeId}}"
+                    }
+                },
+                {
+                    "name": "Accept Exchange Proposal",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{baseUrl}}/api/exchanges/{{exchangeId}}/accept"
+                    }
+                },
+                {
+                    "name": "Reject Exchange Proposal",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{baseUrl}}/api/exchanges/{{exchangeId}}/reject"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "💬 Messages",
+            "item": [
+                {
+                    "name": "Get My Conversations",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/messages/conversations"
+                    }
+                },
+                {
+                    "name": "Start New Conversation",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 201) {",
+                                    "  pm.collectionVariables.set('conversationId', pm.response.json().id);",
+                                    "  console.log('Conversation ID:', pm.response.json().id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/messages/conversations",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"userId\": 2\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Get Messages in Conversation",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/messages/{{conversationId}}"
+                    }
+                },
+                {
+                    "name": "Send a Message",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/messages/{{conversationId}}",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"content\": \"Hi! Is the Algorithms book still available? Would you take $40?\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Mark Conversation Read",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{baseUrl}}/api/messages/{{conversationId}}/read"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "🔔 Notifications",
+            "item": [
+                {
+                    "name": "Get All Notifications",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/notifications"
+                    }
+                },
+                {
+                    "name": "Get Unread Count (Badge)",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/notifications/unread-count"
+                    }
+                },
+                {
+                    "name": "Mark Notification Read",
+                    "request": {
+                        "method": "PUT",
+                        "url": "{{baseUrl}}/api/notifications/{{notificationId}}/read"
+                    }
+                },
+                {
+                    "name": "Mark All Notifications Read",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{baseUrl}}/api/notifications/read-all"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "⭐ Ratings",
+            "item": [
+                {
+                    "name": "Submit a Rating",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/ratings",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"targetUserId\": 2,\n  \"referenceId\": {{transactionId}},\n  \"referenceType\": \"TRANSACTION\",\n  \"score\": 5,\n  \"reviewText\": \"Great seller! Book was exactly as described and the handover was smooth.\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Submit Exchange Rating",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/ratings",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"targetUserId\": 2,\n  \"referenceId\": {{exchangeId}},\n  \"referenceType\": \"EXCHANGE\",\n  \"score\": 4,\n  \"reviewText\": \"Fair exchange, books were in good condition.\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Get Ratings for a User",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/ratings/user/{{userId}}"
+                    }
+                },
+                {
+                    "name": "Get Average Rating for a User",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/ratings/user/{{userId}}/average"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "🤖 AI Assistant",
+            "item": [
+                {
+                    "name": "Chat — Ask About Platform",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/ai/chat",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"message\": \"How do I donate a book on this platform?\",\n  \"history\": []\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Chat — Search for a Book",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/ai/chat",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"message\": \"Do you have any calculus textbooks available?\",\n  \"history\": []\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Chat — With Conversation History",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/ai/chat",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"message\": \"What condition are they in?\",\n  \"history\": [\n    { \"role\": \"user\", \"content\": \"Do you have any calculus textbooks available?\" },\n    { \"role\": \"model\", \"content\": \"Yes! I found 3 calculus textbooks currently available on Book Bridges...\" }\n  ]\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Chat — Ask About Exchange Process",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/ai/chat",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"message\": \"How does the book exchange work? Can I trade with anyone?\",\n  \"history\": []\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "🛡️ Admin — Users",
+            "item": [
+                {
+                    "name": "List All Users",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{baseUrl}}/api/admin/users?page=0&size=20",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "users"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "20"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "List Users — Search by Name/Email",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{baseUrl}}/api/admin/users?search=alex&page=0",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "users"
+                            ],
+                            "query": [
+                                {
+                                    "key": "search",
+                                    "value": "alex"
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "List Users — Filter by Role",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{baseUrl}}/api/admin/users?role=USER&page=0",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "users"
+                            ],
+                            "query": [
+                                {
+                                    "key": "role",
+                                    "value": "USER"
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get User Detail (Admin)",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/admin/users/{{userId}}"
+                    }
+                },
+                {
+                    "name": "Toggle User Suspension",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{baseUrl}}/api/admin/users/{{userId}}/suspend"
+                    }
+                },
+                {
+                    "name": "Issue Strike to User",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{baseUrl}}/api/admin/users/{{userId}}/strike"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "🛡️ Admin — Books",
+            "item": [
+                {
+                    "name": "Get Quarantine Queue",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{baseUrl}}/api/admin/books/quarantine?page=0&size=20",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "books",
+                                "quarantine"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "20"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Approve Book Listing",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{baseUrl}}/api/admin/books/{{bookId}}/approve"
+                    }
+                },
+                {
+                    "name": "Reject Book Listing",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{baseUrl}}/api/admin/books/{{bookId}}/reject"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "🛡️ Admin — System",
+            "item": [
+                {
+                    "name": "Get Platform Stats",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/admin/system/stats"
+                    }
+                },
+                {
+                    "name": "Get Violation Logs",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{baseUrl}}/api/admin/system/violations?page=0&size=20",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "system",
+                                "violations"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "20"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "❤️ Health / Swagger",
+            "item": [
+                {
+                    "name": "Swagger UI (open in browser)",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/swagger-ui.html"
+                    }
+                },
+                {
+                    "name": "OpenAPI JSON Spec",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api-docs"
+                    }
+                }
+            ]
+        }
+    ]
+}

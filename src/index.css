@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #4338ca;
+  /* Deep Indigo */
+  --color-primary-hover: #3730a3;
+  /* Indigo-800 */
+  --color-secondary: #0f172a;
+  /* Oxford Blue */
+
+  --color-background-base: #f8fafc;
+  /* Pristine Off-White */
+  --color-surface-base: #ffffff;
+  /* Stark White */
+
+  --color-border: #e2e8f0;
+  /* Slate 200 */
+  --color-border-hover: #cbd5e1;
+  /* Slate 300 */
+
+  --color-text-primary: #0f172a;
+  /* Slate 900 */
+  --color-text-secondary: #475569;
+  /* Slate 600 */
+  --color-text-muted: #64748b;
+  /* Slate 500 */
+
+  --radius-default: 4px;
+  /* Crisp, minor rounding */
+}
+
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--color-text-primary);
+  background-color: var(--color-background-base);
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .glass {
+    /* Kept for compatibility if used, but minimized */
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--color-border);
+  }
+}
