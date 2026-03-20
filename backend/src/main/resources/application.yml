@@ -3,9 +3,9 @@ spring:
     name: book-bridges-backend
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/book_bridges
-    username: postgres
-    password: postgres123
+    url: 
+    username: 
+    password: 
     driver-class-name: org.postgresql.Driver
 
   jpa:
