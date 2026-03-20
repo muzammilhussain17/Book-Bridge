@@ -39,7 +39,7 @@ jwt:
   blacklist-prefix: "jwt:blacklist:"
 
 gemini:
-  api-key: "AIzaSyBA3v27Pi78gcDttWXzlBUBP1L5YXjtrBI"
+  api-key: "..............."
   endpoint: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 
 springdoc:
