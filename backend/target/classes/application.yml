@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/book_bridges
     username: postgres
-    password: aziz890
+    password: postgres123
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -39,7 +39,7 @@ jwt:
   blacklist-prefix: "jwt:blacklist:"
 
 gemini:
-  api-key: "-----------"
+  api-key: "[ENCRYPTION_KEY]"
   endpoint: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 
 springdoc:
