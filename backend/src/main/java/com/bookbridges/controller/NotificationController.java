@@ -38,4 +38,11 @@ public class NotificationController {
     public ResponseEntity<Map<String, Integer>> markAllRead(@AuthenticationPrincipal String email) {
         return ResponseEntity.ok(Map.of("markedRead", notificationService.markAllRead(email)));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteNotification(
+            @AuthenticationPrincipal String email, @PathVariable Long id) {
+        notificationService.deleteNotification(email, id);
+        return ResponseEntity.noContent().build();
+    }
 }

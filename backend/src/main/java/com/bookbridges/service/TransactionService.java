@@ -22,6 +22,7 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public TxnDto checkout(String buyerEmail, CheckoutRequest req) {
@@ -48,7 +49,29 @@ public class TransactionService {
 
         book.setStatus(Book.BookStatus.SOLD);
         bookRepository.save(book);
-        return TxnDto.from(transactionRepository.save(txn));
+        Transaction saved = transactionRepository.save(txn);
+
+        // Notify the seller about the new purchase
+        notificationService.createNotification(
+                book.getOwner(),
+                "New Purchase! 💰",
+                buyer.getName() + " purchased your book \"" + book.getTitle()
+                        + "\" for $" + saved.getAmount() + ".",
+                "TRANSACTION",
+                "/transactions/" + saved.getId()
+        );
+
+        // Notify the buyer with a confirmation
+        notificationService.createNotification(
+                buyer,
+                "Order Confirmed",
+                "Your purchase of \"" + book.getTitle() + "\" has been confirmed. "
+                        + "The seller will be in touch soon.",
+                "TRANSACTION",
+                "/transactions/" + saved.getId()
+        );
+
+        return TxnDto.from(saved);
     }
 
     public Page<TxnDto> getPurchases(String email, Pageable pageable) {
@@ -79,8 +102,30 @@ public class TransactionService {
         if (!txn.getSeller().getId().equals(user.getId())) {
             throw AppException.forbidden("Only the seller can update the transaction status");
         }
-        txn.setStatus(Transaction.TransactionStatus.valueOf(status.toUpperCase()));
-        return TxnDto.from(transactionRepository.save(txn));
+
+        Transaction.TransactionStatus newStatus = Transaction.TransactionStatus.valueOf(status.toUpperCase());
+        txn.setStatus(newStatus);
+        Transaction saved = transactionRepository.save(txn);
+
+        // Notify the buyer about status changes
+        String statusLabel = switch (newStatus) {
+            case SHIPPED -> "has been shipped! 📦";
+            case DELIVERED -> "has been delivered! 📬";
+            case COMPLETED -> "is now complete! ✅";
+            case CANCELLED -> "has been cancelled.";
+            case HANDOVER -> "is ready for handover.";
+            default -> "status updated to " + newStatus.name() + ".";
+        };
+
+        notificationService.createNotification(
+                txn.getBuyer(),
+                "Order Update",
+                "Your order for \"" + txn.getBook().getTitle() + "\" " + statusLabel,
+                "TRANSACTION",
+                "/transactions/" + saved.getId()
+        );
+
+        return TxnDto.from(saved);
     }
 
     private User findUserByEmail(String email) {

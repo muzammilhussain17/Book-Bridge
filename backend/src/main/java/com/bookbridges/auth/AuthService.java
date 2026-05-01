@@ -3,6 +3,8 @@ package com.bookbridges.auth;
 import com.bookbridges.domain.User;
 import com.bookbridges.exception.AppException;
 import com.bookbridges.repository.UserRepository;
+import com.bookbridges.service.EmailService;
+import com.bookbridges.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
+    private final EmailService emailService;
+    private final NotificationService notificationService;
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
@@ -31,6 +35,19 @@ public class AuthService {
 
         userRepository.save(user);
         String token = jwtUtils.generateToken(user.getEmail(), user.getRole().name());
+
+        // Send welcome email (async)
+        emailService.sendWelcomeEmail(user.getEmail(), user.getName());
+
+        // Create welcome in-app notification
+        notificationService.createNotification(
+                user,
+                "Welcome to Book Bridges! 🎉",
+                "Your account has been created successfully. Start by browsing books or listing your own!",
+                "SYSTEM",
+                "/dashboard"
+        );
+
         return buildResponse(user, token);
     }
 

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Notification</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #f1f5f9;">
+        <tr>
+            <td align="center" style="padding: 40px 20px;">
+                <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width: 600px; width: 100%;">
+
+                    <!-- Header -->
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #4f46e5 0%, #6366f1 50%, #818cf8 100%); padding: 32px 40px; border-radius: 16px 16px 0 0;">
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td>
+                                        <div style="display: inline-block; background: rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; margin-bottom: 16px;">
+                                            <span style="font-size: 18px; margin-right: 6px;">📚</span>
+                                            <span style="color: #ffffff; font-size: 14px; font-weight: 700; letter-spacing: -0.3px;">Book Bridges</span>
+                                        </div>
+                                    </td>
+                                    <td align="right">
+                                        <span th:if="${type == 'EXCHANGE'}" style="background: rgba(255,255,255,0.2); color: #ffffff; font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;">Exchange</span>
+                                        <span th:if="${type == 'TRANSACTION'}" style="background: rgba(255,255,255,0.2); color: #ffffff; font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;">Transaction</span>
+                                        <span th:if="${type == 'SYSTEM'}" style="background: rgba(255,255,255,0.2); color: #ffffff; font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;">System</span>
+                                        <span th:if="${type == 'STATUS'}" style="background: rgba(255,255,255,0.2); color: #ffffff; font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;">Status Update</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <h1 style="color: #ffffff; font-size: 22px; font-weight: 700; margin: 12px 0 0; letter-spacing: -0.5px; line-height: 1.3;" th:text="${title}">
+                                Notification Title
+                            </h1>
+                        </td>
+                    </tr>
+
+                    <!-- Body -->
+                    <tr>
+                        <td style="background-color: #ffffff; padding: 40px;">
+                            <p style="color: #334155; font-size: 15px; line-height: 1.7; margin: 0 0 24px;" th:text="${body}">
+                                Notification message body goes here.
+                            </p>
+
+                            <!-- CTA Button -->
+                            <table role="presentation" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+                                <tr>
+                                    <td style="border-radius: 8px; background: linear-gradient(135deg, #4f46e5, #6366f1);">
+                                        <a th:href="${actionUrl}" target="_blank" style="display: inline-block; color: #ffffff; font-size: 14px; font-weight: 600; text-decoration: none; padding: 14px 32px; letter-spacing: -0.2px;">
+                                            View Details →
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Divider -->
+                    <tr>
+                        <td style="background-color: #ffffff; padding: 0 40px;">
+                            <div style="border-top: 1px solid #e2e8f0;"></div>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #ffffff; padding: 24px 40px 32px; border-radius: 0 0 16px 16px;">
+                            <p style="color: #94a3b8; font-size: 12px; line-height: 1.6; margin: 0; text-align: center;">
+                                You're receiving this email because you have an account on Book Bridges.
+                                <br/>
+                                <a th:href="${frontendUrl + '/notifications'}" style="color: #6366f1; text-decoration: underline;">Manage notifications</a>
+                                &nbsp;·&nbsp;
+                                <a th:href="${frontendUrl}" style="color: #6366f1; text-decoration: underline;">Visit Book Bridges</a>
+                            </p>
+                            <p style="color: #cbd5e1; font-size: 11px; margin: 16px 0 0; text-align: center;">
+                                © <span th:text="${year}">2026</span> Book Bridges — Campus Book Exchange Network
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useAuth } from '../context/AuthContext';
+import { NotificationDropdown } from '../components/ui/NotificationDropdown';
 
 const ADMIN_NAV_ITEMS = [
     { name: 'Dashboard', path: '/admin', icon: <LayoutDashboard className="w-4 h-4" /> },
@@ -179,10 +180,7 @@ export const AdminLayout = () => {
                             />
                             <svg xmlns="http://www.w3.org/2000/svg" className="absolute left-2.5 top-2 w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                         </form>
-                        <Link to="/admin/violations" title="View Security Alerts" className="relative p-1.5 rounded-[4px] hover:bg-slate-100 text-slate-500 hover:text-slate-900 transition-colors">
-                            <Bell className="w-4 h-4" />
-                            <span className="absolute top-0.5 right-0.5 w-1.5 h-1.5 bg-rose-500 rounded-full border border-white"></span>
-                        </Link>
+                        <NotificationDropdown />
                         <div className="relative border-l border-slate-200 pl-4">
                             <button
                                 onClick={() => setProfileMenuOpen(!isProfileMenuOpen)}

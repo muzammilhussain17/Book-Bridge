@@ -45,6 +45,7 @@ D:\Book Bridges\backend\src\main\java\com\bookbridges\repository\UserRepository.
 D:\Book Bridges\backend\src\main\java\com\bookbridges\repository\ViolationLogRepository.java
 D:\Book Bridges\backend\src\main\java\com\bookbridges\service\AiService.java
 D:\Book Bridges\backend\src\main\java\com\bookbridges\service\BookService.java
+D:\Book Bridges\backend\src\main\java\com\bookbridges\service\EmailService.java
 D:\Book Bridges\backend\src\main\java\com\bookbridges\service\ExchangeService.java
 D:\Book Bridges\backend\src\main\java\com\bookbridges\service\FileStorageService.java
 D:\Book Bridges\backend\src\main\java\com\bookbridges\service\GeminiClient.java

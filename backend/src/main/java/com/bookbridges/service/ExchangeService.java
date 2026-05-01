@@ -20,6 +20,7 @@ public class ExchangeService {
     private final ExchangeRepository exchangeRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public ExchangeDto propose(String initiatorEmail, ProposeRequest req) {
@@ -41,7 +42,19 @@ public class ExchangeService {
                 .message(req.message())
                 .build();
 
-        return ExchangeDto.from(exchangeRepository.save(exchange));
+        Exchange saved = exchangeRepository.save(exchange);
+
+        // Notify the receiver about the new exchange proposal
+        notificationService.createNotification(
+                requestedBook.getOwner(),
+                "New Exchange Proposal",
+                initiator.getName() + " wants to exchange \"" + offeredBook.getTitle()
+                        + "\" for your \"" + requestedBook.getTitle() + "\".",
+                "EXCHANGE",
+                "/exchanges/" + saved.getId()
+        );
+
+        return ExchangeDto.from(saved);
     }
 
     public List<ExchangeDto> getMyExchanges(String email) {
@@ -68,7 +81,19 @@ public class ExchangeService {
         exchange.getRequestedBook().setStatus(Book.BookStatus.EXCHANGED);
         bookRepository.save(exchange.getOfferedBook());
         bookRepository.save(exchange.getRequestedBook());
-        return ExchangeDto.from(exchangeRepository.save(exchange));
+        Exchange saved = exchangeRepository.save(exchange);
+
+        // Notify the initiator that their exchange was accepted
+        notificationService.createNotification(
+                exchange.getInitiator(),
+                "Exchange Accepted! 🎉",
+                exchange.getReceiver().getName() + " accepted your exchange proposal for \""
+                        + exchange.getRequestedBook().getTitle() + "\".",
+                "EXCHANGE",
+                "/exchanges/" + saved.getId()
+        );
+
+        return ExchangeDto.from(saved);
     }
 
     @Transactional
@@ -76,7 +101,19 @@ public class ExchangeService {
         Exchange exchange = findById(id);
         validateReceiver(email, exchange);
         exchange.setStatus(Exchange.ExchangeStatus.REJECTED);
-        return ExchangeDto.from(exchangeRepository.save(exchange));
+        Exchange saved = exchangeRepository.save(exchange);
+
+        // Notify the initiator that their exchange was rejected
+        notificationService.createNotification(
+                exchange.getInitiator(),
+                "Exchange Declined",
+                exchange.getReceiver().getName() + " declined your exchange proposal for \""
+                        + exchange.getRequestedBook().getTitle() + "\".",
+                "EXCHANGE",
+                "/exchanges/" + saved.getId()
+        );
+
+        return ExchangeDto.from(saved);
     }
 
     private void validateReceiver(String email, Exchange exchange) {

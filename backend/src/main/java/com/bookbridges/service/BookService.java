@@ -23,6 +23,7 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     public Page<BookDto> getPublicBooks(String type, String condition, String category, String search,
             Pageable pageable) {
@@ -131,7 +132,18 @@ public class BookService {
     public BookDto approveBook(Long bookId) {
         Book book = findById(bookId);
         book.setStatus(Book.BookStatus.ACTIVE);
-        return BookDto.from(bookRepository.save(book));
+        Book saved = bookRepository.save(book);
+
+        // Notify book owner
+        notificationService.createNotification(
+                book.getOwner(),
+                "Book Approved! ✅",
+                "Your listing \"" + book.getTitle() + "\" has been approved and is now live.",
+                "STATUS",
+                "/books/" + saved.getId()
+        );
+
+        return BookDto.from(saved);
     }
 
     @Transactional
@@ -139,6 +151,15 @@ public class BookService {
         Book book = findById(bookId);
         book.setStatus(Book.BookStatus.REJECTED);
         bookRepository.save(book);
+
+        // Notify book owner
+        notificationService.createNotification(
+                book.getOwner(),
+                "Listing Rejected",
+                "Your listing \"" + book.getTitle() + "\" was rejected. Please review our guidelines and re-submit.",
+                "STATUS",
+                "/my-listings"
+        );
     }
 
     // --- Helpers ---

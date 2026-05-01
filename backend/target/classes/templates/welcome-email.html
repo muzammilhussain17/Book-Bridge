@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Book Bridges</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #f1f5f9;">
+        <tr>
+            <td align="center" style="padding: 40px 20px;">
+                <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width: 600px; width: 100%;">
+
+                    <!-- Header -->
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #4f46e5 0%, #6366f1 50%, #818cf8 100%); padding: 48px 40px; border-radius: 16px 16px 0 0; text-align: center;">
+                            <div style="display: inline-block; background: rgba(255,255,255,0.2); border-radius: 12px; padding: 12px 16px; margin-bottom: 20px;">
+                                <span style="font-size: 32px;">📚</span>
+                            </div>
+                            <h1 style="color: #ffffff; font-size: 28px; font-weight: 800; margin: 0; letter-spacing: -0.5px; line-height: 1.2;">
+                                Welcome to Book Bridges!
+                            </h1>
+                            <p style="color: rgba(255,255,255,0.8); font-size: 15px; margin: 12px 0 0; font-weight: 500;">
+                                Your campus book exchange network
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Body -->
+                    <tr>
+                        <td style="background-color: #ffffff; padding: 40px;">
+                            <p style="color: #334155; font-size: 16px; line-height: 1.7; margin: 0 0 8px;">
+                                Hi <strong th:text="${userName}">User</strong>,
+                            </p>
+                            <p style="color: #475569; font-size: 15px; line-height: 1.7; margin: 0 0 28px;">
+                                We're thrilled to have you join the Book Bridges community! Here's how to get started:
+                            </p>
+
+                            <!-- Steps -->
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td style="padding: 16px 20px; background-color: #f8fafc; border-radius: 12px; margin-bottom: 12px;">
+                                        <table role="presentation" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="vertical-align: top; padding-right: 16px;">
+                                                    <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #4f46e5, #6366f1); border-radius: 8px; text-align: center; line-height: 32px; color: #fff; font-weight: 700; font-size: 14px;">1</div>
+                                                </td>
+                                                <td>
+                                                    <p style="color: #1e293b; font-size: 14px; font-weight: 600; margin: 0 0 4px;">List Your Books</p>
+                                                    <p style="color: #64748b; font-size: 13px; margin: 0;">Share textbooks you no longer need with fellow students.</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr><td style="height: 12px;"></td></tr>
+                                <tr>
+                                    <td style="padding: 16px 20px; background-color: #f8fafc; border-radius: 12px;">
+                                        <table role="presentation" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="vertical-align: top; padding-right: 16px;">
+                                                    <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #4f46e5, #6366f1); border-radius: 8px; text-align: center; line-height: 32px; color: #fff; font-weight: 700; font-size: 14px;">2</div>
+                                                </td>
+                                                <td>
+                                                    <p style="color: #1e293b; font-size: 14px; font-weight: 600; margin: 0 0 4px;">Browse & Buy</p>
+                                                    <p style="color: #64748b; font-size: 13px; margin: 0;">Find affordable textbooks from students on your campus.</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr><td style="height: 12px;"></td></tr>
+                                <tr>
+                                    <td style="padding: 16px 20px; background-color: #f8fafc; border-radius: 12px;">
+                                        <table role="presentation" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="vertical-align: top; padding-right: 16px;">
+                                                    <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #4f46e5, #6366f1); border-radius: 8px; text-align: center; line-height: 32px; color: #fff; font-weight: 700; font-size: 14px;">3</div>
+                                                </td>
+                                                <td>
+                                                    <p style="color: #1e293b; font-size: 14px; font-weight: 600; margin: 0 0 4px;">Exchange & Connect</p>
+                                                    <p style="color: #64748b; font-size: 13px; margin: 0;">Trade books, message sellers, and build your academic network.</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- CTA -->
+                            <table role="presentation" cellpadding="0" cellspacing="0" style="margin: 32px auto 0;">
+                                <tr>
+                                    <td style="border-radius: 8px; background: linear-gradient(135deg, #4f46e5, #6366f1);">
+                                        <a th:href="${frontendUrl + '/dashboard'}" target="_blank" style="display: inline-block; color: #ffffff; font-size: 14px; font-weight: 600; text-decoration: none; padding: 14px 36px; letter-spacing: -0.2px;">
+                                            Go to Dashboard →
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #ffffff; padding: 24px 40px 32px; border-radius: 0 0 16px 16px; border-top: 1px solid #e2e8f0;">
+                            <p style="color: #94a3b8; font-size: 12px; line-height: 1.6; margin: 0; text-align: center;">
+                                Need help? Visit our
+                                <a th:href="${frontendUrl + '/help'}" style="color: #6366f1; text-decoration: underline;">Help Center</a>
+                                or
+                                <a th:href="${frontendUrl + '/contact'}" style="color: #6366f1; text-decoration: underline;">contact us</a>.
+                            </p>
+                            <p style="color: #cbd5e1; font-size: 11px; margin: 16px 0 0; text-align: center;">
+                                © <span th:text="${year}">2026</span> Book Bridges — Campus Book Exchange Network
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

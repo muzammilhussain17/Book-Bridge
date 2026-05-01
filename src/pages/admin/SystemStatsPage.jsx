@@ -73,8 +73,8 @@ export const SystemStatsPage = () => {
                                 <motion.div
                                     key={i}
                                     className="w-full bg-emerald-100 border border-emerald-300 rounded-t-[2px]"
-                                    initial={{ height: `${Math.random() * 30 + 10}%` }}
-                                    animate={{ height: `${Math.random() * 60 + 20}%` }}
+                                    initial={{ height: `${((i * 17) % 30) + 10}%` }}
+                                    animate={{ height: `${((i * 23) % 60) + 20}%` }}
                                     transition={{
                                         duration: 2,
                                         repeat: Infinity,

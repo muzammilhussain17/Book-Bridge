@@ -103,7 +103,10 @@ export const messageApi = {
 // ─────────────────────────────────────────────────────────────
 export const notificationApi = {
     getAll: () => api.get('/api/notifications'),
+    getUnreadCount: () => api.get('/api/notifications/unread-count'),
     markRead: (id) => api.put(`/api/notifications/${id}/read`),
+    markAllRead: () => api.post('/api/notifications/read-all'),
+    remove: (id) => api.delete(`/api/notifications/${id}`),
 };
 
 // ─────────────────────────────────────────────────────────────

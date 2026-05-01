@@ -11,7 +11,7 @@ export const AdminUserDetailsPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
 
-    const fetchUser = async () => {
+    const fetchUser = React.useCallback(async () => {
         try {
             setIsLoading(true);
             const res = await adminApi.getUserDetail(id);
@@ -23,11 +23,11 @@ export const AdminUserDetailsPage = () => {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [id]);
 
     useEffect(() => {
         fetchUser();
-    }, [id]);
+    }, [fetchUser]);
 
     const handleSuspendToggle = async () => {
         if (!userData) return;
