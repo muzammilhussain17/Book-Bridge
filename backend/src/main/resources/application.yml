@@ -7,15 +7,22 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD:postgres123}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5          # Railway free tier: keep this low
+      minimum-idle: 2
+      connection-timeout: 20000
+      idle-timeout: 300000
+      max-lifetime: 1200000
 
   jpa:
     hibernate:
       ddl-auto: validate
     show-sql: false
+    open-in-view: false             # FIX: prevent DB connections held during view rendering
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+        # FIX: removed explicit dialect — Hibernate auto-detects PostgreSQL
 
   flyway:
     enabled: true
@@ -24,22 +31,35 @@ spring:
 
   data:
     redis:
-      host: localhost
-      port: 6379
-      # password: YOUR_REDIS_PASSWORD  # uncomment if Redis has auth
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 4             # Railway free tier: keep low
+          max-idle: 2
+          min-idle: 1
+          max-wait: 1000ms
+
+  # FIX: tell Spring Data to use JPA for these repositories, not Redis
+  # Your repositories extend JpaRepository so this prevents double-scanning
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
 
 server:
-  port: 8080
+  port: ${PORT:8080}                # Railway injects PORT env var — must respect it
   error:
     include-message: always
 
 jwt:
-  secret: "YourSuperSecretSigningKeyThatIsAtLeast256BitsLongForHS256Algorithm"
-  expiration-ms: 86400000   # 24 hours
+  secret: ${JWT_SECRET:YourSuperSecretSigningKeyThatIsAtLeast256BitsLongForHS256Algorithm}
+  expiration-ms: ${JWT_EXPIRATION_MS:86400000}
   blacklist-prefix: "jwt:blacklist:"
 
 gemini:
-  api-key: "[ENCRYPTION_KEY]"
+  api-key: ${GEMINI_API_KEY:}
   endpoint: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 
 springdoc:
@@ -53,9 +73,11 @@ logging:
   level:
     com.bookbridges: DEBUG
     org.springframework.security: INFO
+    # FIX: silence the redundant UserDetailsService warning
+    org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer: ERROR
 
 app:
-  upload-dir: ${UPLOAD_DIR:D:/Book Bridges/backend/uploads}
+  upload-dir: ${UPLOAD_DIR:/tmp/uploads}   # FIX: Railway has no D:/ drive — use /tmp
   frontend-url: ${APP_FRONTEND_URL:http://localhost:5173}
 
 cloudinary:
@@ -63,20 +85,22 @@ cloudinary:
   api-key: ${CLOUDINARY_API_KEY:}
   api-secret: ${CLOUDINARY_API_SECRET:}
 
-spring.mail:
-  host: ${MAIL_HOST:smtp-relay.brevo.com}
-  port: ${MAIL_PORT:587}
-  username: ${MAIL_USERNAME:your-brevo-login@example.com}
-  password: ${MAIL_PASSWORD:your-brevo-smtp-key}
-  properties:
-    mail:
-      smtp:
-        auth: true
-        starttls:
-          enabled: true
-        connectiontimeout: 5000
-        timeout: 5000
-        writetimeout: 5000
+# FIX: merged spring.mail into main spring block (avoids duplicate key confusion)
+spring:
+  mail:
+    host: ${MAIL_HOST:smtp-relay.brevo.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enabled: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 
 notification:
   email-enabled: ${EMAIL_NOTIFICATIONS_ENABLED:true}
