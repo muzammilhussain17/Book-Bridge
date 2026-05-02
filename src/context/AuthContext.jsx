@@ -35,12 +35,8 @@ export const AuthProvider = ({ children }) => {
     };
 
     const register = async (name, email, password) => {
-        const res = await authApi.register({ name, email, password });
-        const { token, user: userData } = res.data;
-        localStorage.setItem('bb_token', token);
-        localStorage.setItem('bb_user', JSON.stringify(userData));
-        setUser(userData);
-        return userData;
+        await authApi.register({ name, email, password });
+        // Removed auto-login logic to force user to explicitly log in.
     };
 
     const logout = async () => {

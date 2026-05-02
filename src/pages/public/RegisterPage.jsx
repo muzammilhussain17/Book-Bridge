@@ -23,7 +23,7 @@ export const RegisterPage = () => {
         const password = formData.get('password');
         try {
             await register(`${firstName} ${lastName}`, email, password);
-            navigate('/dashboard');
+            navigate('/login');
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed. Please try again.');
         } finally {
