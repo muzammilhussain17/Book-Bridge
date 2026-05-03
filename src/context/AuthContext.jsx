@@ -34,6 +34,15 @@ export const AuthProvider = ({ children }) => {
         return userData;
     };
 
+    const googleLogin = async (idToken) => {
+        const res = await authApi.googleLogin(idToken);
+        const { token, user: userData } = res.data;
+        localStorage.setItem('bb_token', token);
+        localStorage.setItem('bb_user', JSON.stringify(userData));
+        setUser(userData);
+        return userData;
+    };
+
     const register = async (name, email, password) => {
         await authApi.register({ name, email, password });
         // Removed auto-login logic to force user to explicitly log in.
@@ -60,7 +69,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, isLoading, login, register, logout, updateProfile }}>
+        <AuthContext.Provider value={{ user, isLoading, login, googleLogin, register, logout, updateProfile }}>
             {!isLoading && children}
         </AuthContext.Provider>
     );

@@ -105,7 +105,7 @@ export const BookDetailsPage = () => {
                                     )}
                                 </div>
                                 {book.imageUrls && book.imageUrls.length > 1 && (
-                                    <div className="grid grid-cols-4 gap-3">
+                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                                         {book.imageUrls.map((url, i) => (
                                             <div
                                                 key={i}
@@ -124,7 +124,7 @@ export const BookDetailsPage = () => {
                                 <p className="text-slate-600 leading-relaxed mb-6">{book.description || 'No description provided.'}</p>
 
                                 <h3 className="text-lg font-semibold text-slate-900 mb-3 border-b border-slate-200 pb-2">Academic Details</h3>
-                                <div className="grid grid-cols-2 gap-4 text-sm">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                                     <div>
                                         <span className="block text-slate-500 mb-1">ISBN</span>
                                         <span className="font-medium text-slate-900">{book.isbn || 'Not specified'}</span>
@@ -264,7 +264,7 @@ export const BookDetailsPage = () => {
                                 <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-200">
                                     <Input label="Name on Card" placeholder="John Doe" />
                                     <Input label="Card Number" placeholder="**** **** **** 4242" />
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <Input label="Expiry (MM/YY)" placeholder="12/25" />
                                         <Input label="CVC" placeholder="***" type="password" />
                                     </div>

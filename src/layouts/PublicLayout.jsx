@@ -16,17 +16,19 @@ export const PublicLayout = () => {
                             Book Bridges
                         </span>
                     </Link>
-                    <nav className="flex items-center gap-6">
-                        <Link to="/help" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            Help
-                        </Link>
-                        <Link to="/contact" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            Contact
-                        </Link>
-                        <Link to="/faqs" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            FAQs
-                        </Link>
-                        <div className="flex items-center gap-3">
+                    <nav className="flex items-center gap-3 md:gap-6">
+                        <div className="hidden md:flex items-center gap-6">
+                            <Link to="/help" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+                                Help
+                            </Link>
+                            <Link to="/contact" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+                                Contact
+                            </Link>
+                            <Link to="/faqs" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+                                FAQs
+                            </Link>
+                        </div>
+                        <div className="flex items-center gap-2 sm:gap-3">
                             <Link to="/login">
                                 <button className="hidden sm:inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-full hover:bg-slate-50 hover:text-slate-900 transition-all duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-1">
                                     Log in

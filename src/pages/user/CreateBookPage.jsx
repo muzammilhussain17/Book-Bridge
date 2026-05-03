@@ -182,7 +182,7 @@ export const CreateBookPage = () => {
                                 </label>
 
                                 {images.length > 0 && (
-                                    <div className="grid grid-cols-2 gap-3 mb-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                                         {images.map((img, i) => (
                                             <div key={i} className="relative group rounded-[4px] border border-slate-200 overflow-hidden bg-slate-50 h-24">
                                                 <img

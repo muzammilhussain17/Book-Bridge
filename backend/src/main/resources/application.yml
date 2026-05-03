@@ -79,6 +79,8 @@ logging:
 app:
   upload-dir: ${UPLOAD_DIR:/tmp/uploads}   # FIX: Railway has no D:/ drive — use /tmp
   frontend-url: ${APP_FRONTEND_URL:http://localhost:5173}
+  google-client-id: ${GOOGLE_CLIENT_ID:your-google-client-id}
+
 
 cloudinary:
   cloud-name: ${CLOUDINARY_CLOUD_NAME:}

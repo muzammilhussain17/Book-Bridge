@@ -125,7 +125,7 @@ export const AdminUserDetailsPage = () => {
                                     <p className="text-xs text-slate-500 font-medium">Completed Transactions</p>
                                     <p className="text-xl font-black text-indigo-600">{metrics.completedTrades}</p>
                                 </div>
-                                <div className="grid grid-cols-2 gap-2 pt-4 border-t border-slate-100">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-4 border-t border-slate-100">
                                     <div>
                                         <p className="text-[10px] text-slate-500 uppercase font-semibold">Reports Filed</p>
                                         <p className="font-bold text-slate-900">{metrics.reportsFiled}</p>
