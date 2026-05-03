@@ -29,25 +29,6 @@ spring:
     baseline-on-migrate: true
     locations: classpath:db/migration
 
-  data:
-    redis:
-      host: ${REDIS_HOST:localhost}
-      port: ${REDIS_PORT:6379}
-      password: ${REDIS_PASSWORD:}
-      timeout: 2000ms
-      lettuce:
-        pool:
-          max-active: 4             # Railway free tier: keep low
-          max-idle: 2
-          min-idle: 1
-          max-wait: 1000ms
-
-  # FIX: tell Spring Data to use JPA for these repositories, not Redis
-  # Your repositories extend JpaRepository so this prevents double-scanning
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
-
 server:
   port: ${PORT:8080}                # Railway injects PORT env var — must respect it
   error:
@@ -56,7 +37,6 @@ server:
 jwt:
   secret: ${JWT_SECRET:YourSuperSecretSigningKeyThatIsAtLeast256BitsLongForHS256Algorithm}
   expiration-ms: ${JWT_EXPIRATION_MS:86400000}
-  blacklist-prefix: "jwt:blacklist:"
 
 gemini:
   api-key: ${GEMINI_API_KEY:}
