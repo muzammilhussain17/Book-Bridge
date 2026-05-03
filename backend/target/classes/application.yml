@@ -55,7 +55,7 @@ jwt:
 
 gemini:
   api-key: ${GEMINI_API_KEY:}
-  endpoint: "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent"
+  endpoint: "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent"
 
 springdoc:
   api-docs:
