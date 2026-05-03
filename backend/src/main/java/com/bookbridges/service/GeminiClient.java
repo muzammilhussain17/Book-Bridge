@@ -55,19 +55,16 @@ public class GeminiClient {
         // Build the full request body using Jackson
         ObjectNode requestBody = objectMapper.createObjectNode();
 
-        // System instruction
-        ObjectNode systemInstruction = objectMapper.createObjectNode();
-        ArrayNode systemParts = objectMapper.createArrayNode();
-        systemParts.add(objectMapper.createObjectNode().put("text", systemPrompt));
-        systemInstruction.set("parts", systemParts);
-        requestBody.set("systemInstruction", systemInstruction);
-
         // Conversation contents
         ArrayNode contents = objectMapper.createArrayNode();
 
+        // In v1/v1beta, the most compatible way to provide a system prompt 
+        // is to prepend it to the first user message if systemInstruction field is rejected.
+        String firstUserPrefix = "System Instruction: " + systemPrompt + "\n\nUser Message: ";
+
         // Add history (Gemini requires history to start with 'user' and alternate)
+        boolean foundFirstUser = false;
         if (history != null) {
-            boolean foundFirstUser = false;
             for (Map<String, Object> entry : history) {
                 String role = (String) entry.getOrDefault("role", "user");
                 String text = (String) entry.getOrDefault("content", "");
@@ -81,22 +78,34 @@ public class GeminiClient {
                 if (!foundFirstUser && "model".equals(geminiRole)) {
                     continue;
                 }
-                foundFirstUser = true;
 
                 ObjectNode contentNode = objectMapper.createObjectNode();
                 contentNode.put("role", geminiRole);
                 ArrayNode parts = objectMapper.createArrayNode();
-                parts.add(objectMapper.createObjectNode().put("text", text));
+                
+                String finalMsg = text;
+                if (!foundFirstUser) {
+                    finalMsg = firstUserPrefix + text;
+                }
+                foundFirstUser = true;
+
+                parts.add(objectMapper.createObjectNode().put("text", finalMsg));
                 contentNode.set("parts", parts);
                 contents.add(contentNode);
             }
         }
 
-        // Add the current user message
+        // Add the current user message (if no user history existed, this is the first)
         ObjectNode userContent = objectMapper.createObjectNode();
         userContent.put("role", "user");
         ArrayNode userParts = objectMapper.createArrayNode();
-        userParts.add(objectMapper.createObjectNode().put("text", userMessage));
+        
+        String finalUserMsg = userMessage;
+        if (!foundFirstUser) {
+            finalUserMsg = firstUserPrefix + userMessage;
+        }
+        
+        userParts.add(objectMapper.createObjectNode().put("text", finalUserMsg));
         userContent.set("parts", userParts);
         contents.add(userContent);
 
