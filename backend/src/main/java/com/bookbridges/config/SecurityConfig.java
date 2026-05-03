@@ -72,8 +72,8 @@ public class SecurityConfig {
                         // Admin only
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
 
-                        // AI chat — authenticated users only
-                        .requestMatchers("/api/ai/**").authenticated()
+                        // AI chat — public access allowed (backend handles user context if present)
+                        .requestMatchers("/api/ai/**").permitAll()
 
                         // All other requests
                         .anyRequest().authenticated())

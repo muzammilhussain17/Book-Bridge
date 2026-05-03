@@ -54,7 +54,7 @@ public class Book {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     @Builder.Default
-    private BookStatus status = BookStatus.ACTIVE;
+    private BookStatus status = BookStatus.PENDING_APPROVAL;
 
     @Column(name = "image_url", length = 500)
     private String imageUrl;

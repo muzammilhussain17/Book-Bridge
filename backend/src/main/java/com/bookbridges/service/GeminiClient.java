@@ -47,6 +47,11 @@ public class GeminiClient {
      * @return The generated text response
      */
     public String chat(String systemPrompt, List<Map<String, Object>> history, String userMessage) throws IOException {
+        if (apiKey == null || apiKey.isBlank() || apiKey.contains("your-")) {
+            log.error("Gemini API key is not configured or is a placeholder");
+            return "I'm not properly configured with a Google Gemini API key. Please check the backend environment variables.";
+        }
+
         // Build the full request body using Jackson
         ObjectNode requestBody = objectMapper.createObjectNode();
 
@@ -60,8 +65,9 @@ public class GeminiClient {
         // Conversation contents
         ArrayNode contents = objectMapper.createArrayNode();
 
-        // Add history
+        // Add history (Gemini requires history to start with 'user' and alternate)
         if (history != null) {
+            boolean foundFirstUser = false;
             for (Map<String, Object> entry : history) {
                 String role = (String) entry.getOrDefault("role", "user");
                 String text = (String) entry.getOrDefault("content", "");
@@ -70,6 +76,12 @@ public class GeminiClient {
 
                 // Gemini uses "user" and "model" roles only
                 String geminiRole = "model".equals(role) ? "model" : "user";
+
+                // Skip leading model messages
+                if (!foundFirstUser && "model".equals(geminiRole)) {
+                    continue;
+                }
+                foundFirstUser = true;
 
                 ObjectNode contentNode = objectMapper.createObjectNode();
                 contentNode.put("role", geminiRole);

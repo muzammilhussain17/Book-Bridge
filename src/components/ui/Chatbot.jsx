@@ -34,7 +34,8 @@ export const Chatbot = () => {
         try {
             const res = await aiApi.chat(userMsg, history);
             const botReply = res.data?.responseText || "I'm not sure, please try again.";
-            setMessages(prev => [...prev, { id: Date.now() + 1, text: botReply, sender: 'bot' }]);
+            const suggestions = res.data?.suggestedActions || [];
+            setMessages(prev => [...prev, { id: Date.now() + 1, text: botReply, sender: 'bot', suggestions }]);
         } catch {
             setMessages(prev => [...prev, { id: Date.now() + 1, text: "Sorry, I'm having trouble connecting right now. Please try again shortly.", sender: 'bot' }]);
         } finally {
@@ -88,6 +89,23 @@ export const Chatbot = () => {
                                         ) : (
                                             <div className="prose prose-sm max-w-none prose-p:leading-relaxed prose-p:mb-2 last:prose-p:mb-0 prose-strong:font-bold prose-strong:text-indigo-900 prose-ul:my-2 prose-ul:pl-4 prose-li:my-0.5">
                                                 <ReactMarkdown>{msg.text}</ReactMarkdown>
+                                                {msg.suggestions && msg.suggestions.length > 0 && (
+                                                    <div className="mt-4 flex flex-wrap gap-2">
+                                                        {msg.suggestions.map((suggestion, idx) => (
+                                                            <button
+                                                                key={idx}
+                                                                onClick={() => {
+                                                                    setInput(suggestion);
+                                                                    // We can't easily trigger the submit from here without refactoring, 
+                                                                    // but setting the input is a good start.
+                                                                }}
+                                                                className="text-[10px] px-2 py-1 bg-indigo-50 text-indigo-700 border border-indigo-100 rounded-full hover:bg-indigo-100 transition-colors font-bold uppercase tracking-wider"
+                                                            >
+                                                                {suggestion}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                )}
                                             </div>
                                         )}
                                     </div>
