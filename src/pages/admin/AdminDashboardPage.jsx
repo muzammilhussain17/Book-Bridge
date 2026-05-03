@@ -51,7 +51,7 @@ export const AdminDashboardPage = () => {
         <div className="flex flex-col gap-6 w-full h-full pb-10">
             <div className="flex items-end justify-between border-b border-slate-200 pb-5">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight text-slate-900">Platform Analytics</h2>
+                    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Platform Analytics</h2>
                     <p className="text-sm text-slate-500 mt-1 font-medium">Global metrics and real-time infrastructure diagnostics.</p>
                 </div>
             </div>

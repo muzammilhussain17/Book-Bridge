@@ -113,7 +113,7 @@ export const BrowseBooksPage = () => {
         <div className="flex flex-col gap-6 w-full h-full pb-10">
             <div className="flex items-end justify-between border-b border-slate-200 pb-5">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight text-slate-900">Browse Library</h2>
+                    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Browse Library</h2>
                     <p className="text-sm text-slate-500 mt-1 font-medium">Search the academic exchange network for textbooks.</p>
                 </div>
             </div>
@@ -175,7 +175,7 @@ export const BrowseBooksPage = () => {
                                 className="overflow-hidden border-t border-slate-100 pt-4"
                             >
                                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                                    <div className="col-span-1 md:col-span-2 flex gap-4">
+                                    <div className="col-span-1 md:col-span-2 flex flex-col sm:flex-row gap-4">
                                         <div className="flex-1">
                                             <Input
                                                 label="Min Price (Rs.)"

@@ -168,7 +168,7 @@ export const UserLayout = () => {
     );
 
     return (
-        <div className="flex h-screen overflow-hidden bg-white text-slate-900 selection:bg-indigo-100 selection:text-indigo-900">
+        <div className="flex h-[100dvh] overflow-hidden bg-white text-slate-900 selection:bg-indigo-100 selection:text-indigo-900">
             {/* Desktop Sidebar */}
             <motion.aside
                 initial={false}
@@ -203,8 +203,8 @@ export const UserLayout = () => {
             </AnimatePresence>
 
             {/* Main Content Area */}
-            <div className="flex-1 flex flex-col min-w-0 h-screen relative z-10 overflow-hidden bg-white">
-                <header className="h-14 shrink-0 border-b border-slate-200 bg-white flex items-center justify-between px-6 z-20">
+            <div className="flex-1 flex flex-col min-w-0 h-[100dvh] relative z-10 overflow-hidden bg-white">
+                <header className="h-14 shrink-0 border-b border-slate-200 bg-white flex items-center justify-between px-4 sm:px-6 z-20">
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => setMobileMenuOpen(true)}

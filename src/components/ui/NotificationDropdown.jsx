@@ -126,7 +126,7 @@ export const NotificationDropdown = () => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 8, scale: 0.96 }}
                         transition={{ type: 'spring', damping: 25, stiffness: 400 }}
-                        className="absolute right-0 mt-2 w-[400px] max-h-[520px] bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden z-50 flex flex-col"
+                        className="absolute right-0 sm:right-0 mt-2 w-[calc(100vw-2rem)] sm:w-[400px] max-h-[520px] bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden z-50 flex flex-col"
                     >
                         {/* Header */}
                         <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100 bg-slate-50/50">

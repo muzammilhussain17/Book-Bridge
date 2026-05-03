@@ -61,7 +61,7 @@ export const RegisterPage = () => {
 
 
     return (
-        <div className="min-h-[calc(100vh-140px)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-50">
+        <div className="min-h-[calc(100dvh-140px)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-50">
             <div className="w-full max-w-md">
                 <div className="text-center mb-8">
                     <Link to="/" className="inline-flex justify-center items-center">
@@ -78,7 +78,7 @@ export const RegisterPage = () => {
                 </div>
 
                 <Card>
-                    <CardContent className="p-8">
+                    <CardContent className="p-6 sm:p-8">
                         <form className="space-y-4" onSubmit={handleRegister}>
                             {error && (
                                 <div className="p-3 rounded-[4px] bg-rose-50 border border-rose-200 text-rose-700 text-sm font-medium">

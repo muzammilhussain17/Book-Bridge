@@ -122,7 +122,7 @@ export const AdminLayout = () => {
     );
 
     return (
-        <div className="flex h-screen overflow-hidden bg-white text-slate-900 font-sans selection:bg-emerald-100 selection:text-emerald-900">
+        <div className="flex h-[100dvh] overflow-hidden bg-white text-slate-900 font-sans selection:bg-emerald-100 selection:text-emerald-900">
             <motion.aside
                 initial={false}
                 animate={{ width: isSidebarOpen ? 240 : 64 }}
@@ -154,8 +154,8 @@ export const AdminLayout = () => {
                 )}
             </AnimatePresence>
 
-            <div className="flex-1 flex flex-col min-w-0 h-screen relative z-10 overflow-hidden bg-white">
-                <header className="h-14 shrink-0 bg-white border-b border-slate-200 flex items-center justify-between px-6 z-20">
+            <div className="flex-1 flex flex-col min-w-0 h-[100dvh] relative z-10 overflow-hidden bg-white">
+                <header className="h-14 shrink-0 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-6 z-20">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => setMobileMenuOpen(true)}

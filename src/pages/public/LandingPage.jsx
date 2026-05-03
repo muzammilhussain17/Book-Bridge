@@ -16,7 +16,7 @@ export const LandingPage = () => {
             Campus Network Online
           </div>
 
-          <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-slate-900 mb-6 leading-tight">
+          <h1 className="text-4xl sm:text-7xl font-bold tracking-tight text-slate-900 mb-6 leading-tight">
             The intelligent way to <br className="hidden sm:block" />
             <span className="text-indigo-700">share knowledge.</span>
           </h1>
@@ -40,7 +40,7 @@ export const LandingPage = () => {
       <section className="py-24 border-t border-slate-200 bg-white">
         <div className="container mx-auto px-4 lg:px-8 max-w-6xl">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-slate-900">Academic Infrastructure</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Academic Infrastructure</h2>
             <p className="text-slate-500 mt-4 max-w-2xl mx-auto">Everything you need to manage your personal library and connect with peers.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">

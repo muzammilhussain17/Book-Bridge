@@ -44,7 +44,7 @@ export const Chatbot = () => {
 
 
     return (
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end max-w-[calc(100vw-2rem)]">
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -52,7 +52,7 @@ export const Chatbot = () => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="bg-white border border-slate-200 shadow-2xl rounded-2xl w-80 sm:w-96 mb-4 flex flex-col overflow-hidden"
+                        className="bg-white border border-slate-200 shadow-2xl rounded-2xl w-[calc(100vw-2rem)] sm:w-96 mb-4 flex flex-col overflow-hidden"
                     >
                         {/* Header */}
                         <div className="bg-indigo-700 text-white p-4 flex items-center justify-between">

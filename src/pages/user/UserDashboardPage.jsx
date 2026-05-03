@@ -137,7 +137,7 @@ export const UserDashboardPage = () => {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 {[
                     { label: 'Active Listings', value: stats.activeListings, icon: <BookOpen className="w-5 h-5 text-indigo-600" /> },
                     { label: 'Completed Exchanges', value: stats.completedExchanges, icon: <RefreshCcw className="w-5 h-5 text-emerald-600" /> },
