@@ -69,6 +69,7 @@ export const AdminLayout = () => {
                         <Link
                             key={item.path}
                             to={item.path}
+                            onClick={() => setMobileMenuOpen(false)}
                             className={cn(
                                 "flex items-center gap-3 px-3 py-2 rounded-[4px] transition-colors text-sm font-medium group relative",
                                 isActive

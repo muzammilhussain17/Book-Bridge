@@ -78,6 +78,7 @@ export const UserLayout = () => {
                         <Link
                             key={item.path}
                             to={item.path}
+                            onClick={() => setMobileMenuOpen(false)}
                             className={cn(
                                 "flex items-center gap-3 px-3 py-2 rounded-[4px] transition-colors group relative",
                                 isActive
@@ -114,6 +115,7 @@ export const UserLayout = () => {
                         <Link
                             key={item.path}
                             to={item.path}
+                            onClick={() => setMobileMenuOpen(false)}
                             className={cn(
                                 "flex items-center gap-3 px-3 py-2 rounded-[4px] transition-colors group relative",
                                 isActive
@@ -255,12 +257,12 @@ export const UserLayout = () => {
                 </header>
 
                 <main className="flex-1 overflow-x-hidden overflow-y-auto relative custom-scrollbar bg-white">
-                    <div className="p-6 lg:p-10 max-w-6xl mx-auto min-h-[calc(100vh-140px)]">
+                    <div className="p-4 md:p-6 lg:p-10 max-w-6xl mx-auto min-h-[calc(100vh-140px)]">
                         <Outlet />
                     </div>
                     {/* User Operational Footer */}
-                    <footer className="border-t border-slate-200 bg-slate-50 px-6 lg:px-10 py-8">
-                        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <footer className="border-t border-slate-200 bg-slate-50 px-4 md:px-6 lg:px-10 py-8">
+                        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
                             <div>
                                 <h4 className="font-bold text-slate-900 mb-4 text-sm tracking-tight">Platform</h4>
                                 <ul className="space-y-2 text-sm text-slate-500">
