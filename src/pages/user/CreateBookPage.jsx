@@ -68,7 +68,7 @@ export const CreateBookPage = () => {
             navigate('/my-listings');
         } catch (err) {
             console.error(err);
-            setError(err.response?.data?.error || 'Failed to list book. Please try again.');
+            setError(err.response?.data?.message || err.response?.data?.error || 'Failed to list book. Please try again.');
         } finally {
             setIsSubmitting(false);
         }
@@ -146,7 +146,7 @@ export const CreateBookPage = () => {
                                 ]}
                             />
 
-                            {transactionType !== 'exchange' && transactionType !== 'donate' && (
+                            {transactionType !== 'EXCHANGE' && transactionType !== 'DONATION' && (
                                 <>
                                     <Input
                                         label="Original Retail Price (Rs)"

@@ -36,7 +36,6 @@ com\bookbridges\BookBridgesApplication.class
 com\bookbridges\controller\admin\AdminUserController.class
 com\bookbridges\service\AiService$Intent.class
 com\bookbridges\domain\Notification$NotificationBuilder.class
-com\bookbridges\config\RedisConfig.class
 com\bookbridges\domain\Transaction$TransactionBuilder.class
 com\bookbridges\controller\admin\AdminSystemController$ViolationLogDto.class
 com\bookbridges\controller\admin\AdminSystemController.class

@@ -1,6 +1,7 @@
 D:\Book Bridges\backend\src\main\java\com\bookbridges\auth\AuthController.java
 D:\Book Bridges\backend\src\main\java\com\bookbridges\auth\AuthResponse.java
 D:\Book Bridges\backend\src\main\java\com\bookbridges\auth\AuthService.java
+D:\Book Bridges\backend\src\main\java\com\bookbridges\auth\GoogleLoginRequest.java
 D:\Book Bridges\backend\src\main\java\com\bookbridges\auth\JwtAuthFilter.java
 D:\Book Bridges\backend\src\main\java\com\bookbridges\auth\JwtUtils.java
 D:\Book Bridges\backend\src\main\java\com\bookbridges\auth\LoginRequest.java
@@ -9,7 +10,6 @@ D:\Book Bridges\backend\src\main\java\com\bookbridges\auth\UserDetailsServiceImp
 D:\Book Bridges\backend\src\main\java\com\bookbridges\auth\UserDto.java
 D:\Book Bridges\backend\src\main\java\com\bookbridges\BookBridgesApplication.java
 D:\Book Bridges\backend\src\main\java\com\bookbridges\config\OpenApiConfig.java
-D:\Book Bridges\backend\src\main\java\com\bookbridges\config\RedisConfig.java
 D:\Book Bridges\backend\src\main\java\com\bookbridges\config\SecurityConfig.java
 D:\Book Bridges\backend\src\main\java\com\bookbridges\config\WebMvcConfig.java
 D:\Book Bridges\backend\src\main\java\com\bookbridges\controller\admin\AdminBookController.java

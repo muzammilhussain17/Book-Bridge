@@ -36,7 +36,7 @@ export const SecurityPage = () => {
             setConfirmPassword('');
         } catch (err) {
             console.error("Failed to update password", err);
-            setError(err.response?.data?.error || 'Failed to update password. Please check your current password.');
+            setError(err.response?.data?.message || err.response?.data?.error || 'Failed to update password. Please check your current password.');
         } finally {
             setIsSaving(false);
         }

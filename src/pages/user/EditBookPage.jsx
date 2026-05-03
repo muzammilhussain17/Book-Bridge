@@ -117,7 +117,7 @@ export const EditBookPage = () => {
             navigate('/my-listings');
         } catch (err) {
             console.error(err);
-            setError(err.response?.data?.error || 'Failed to update listing.');
+            setError(err.response?.data?.message || err.response?.data?.error || 'Failed to update listing.');
         } finally {
             setIsSubmitting(false);
         }

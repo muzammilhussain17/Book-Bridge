@@ -40,7 +40,7 @@ jwt:
 
 gemini:
   api-key: ${GEMINI_API_KEY:}
-  endpoint: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+  endpoint: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
 
 springdoc:
   api-docs:
@@ -85,4 +85,4 @@ spring.mail:
 
 notification:
   email-enabled: ${EMAIL_NOTIFICATIONS_ENABLED:true}
-  from-address: ${MAIL_FROM:Book Bridges <no-reply@bookbridges.com>}
+  from-address: ${MAIL_FROM:Book Bridges <herikfeitosa31@gmail.com>}

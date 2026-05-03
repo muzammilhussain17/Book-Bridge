@@ -60,7 +60,12 @@ public class FileStorageService {
         if (useCloudinary) {
             try {
                 // Upload to Cloudinary
-                Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+                Map params = ObjectUtils.asMap(
+                        "folder", "book-bridges/uploads",
+                        "use_filename", true,
+                        "unique_filename", true
+                );
+                Map uploadResult = cloudinary.uploader().upload(file.getBytes(), params);
                 return uploadResult.get("secure_url").toString();
             } catch (IOException e) {
                 throw new RuntimeException("Could not store file on Cloudinary. Please try again!", e);

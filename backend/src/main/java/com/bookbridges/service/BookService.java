@@ -59,8 +59,22 @@ public class BookService {
     public BookDto createBook(String email, BookRequest req) {
         User owner = findUserByEmail(email);
 
+        // Validate enums
+        Book.TransactionType type;
+        try {
+            type = Book.TransactionType.valueOf(req.transactionType().toUpperCase());
+        } catch (Exception e) {
+            throw AppException.badRequest("Invalid transaction type: " + req.transactionType());
+        }
+
+        Book.Condition condition;
+        try {
+            condition = Book.Condition.valueOf(req.condition().toUpperCase());
+        } catch (Exception e) {
+            throw AppException.badRequest("Invalid condition: " + req.condition());
+        }
+
         // Validate price for SALE type
-        Book.TransactionType type = Book.TransactionType.valueOf(req.transactionType().toUpperCase());
         if (type == Book.TransactionType.SALE && (req.price() == null || req.price().compareTo(BigDecimal.ZERO) <= 0)) {
             throw AppException.badRequest("A price greater than zero is required for SALE listings");
         }
@@ -71,7 +85,7 @@ public class BookService {
                 .isbn(req.isbn())
                 .description(req.description())
                 .price(req.price() != null ? req.price() : BigDecimal.ZERO)
-                .condition(Book.Condition.valueOf(req.condition().toUpperCase()))
+                .condition(condition)
                 .category(req.category())
                 .courseCode(req.courseCode())
                 .transactionType(type)
