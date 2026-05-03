@@ -129,11 +129,13 @@ public class AuthService {
             return buildResponse(user, token);
 
         } catch (Exception e) {
-            throw AppException.unauthorized("Google authentication failed: " + e.getMessage());
+            String message = e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
+            throw AppException.unauthorized("Google authentication failed: " + message);
         }
     }
 
 
+    @Transactional(readOnly = true)
     public UserDto getMe(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> AppException.notFound("User not found"));

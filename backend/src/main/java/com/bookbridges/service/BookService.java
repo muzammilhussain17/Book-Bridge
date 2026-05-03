@@ -25,6 +25,7 @@ public class BookService {
     private final UserRepository userRepository;
     private final NotificationService notificationService;
 
+    @Transactional(readOnly = true)
     public Page<BookDto> getPublicBooks(String type, String condition, String category, String search,
             Pageable pageable) {
         Book.TransactionType typeEnum = parseEnum(Book.TransactionType.class, type);
@@ -35,11 +36,13 @@ public class BookService {
                 .map(BookDto::from);
     }
 
+    @Transactional(readOnly = true)
     public BookDto getBook(Long id) {
         return BookDto.from(findById(id));
     }
 
     /** Get user's own listings, with optional status filter */
+    @Transactional(readOnly = true)
     public List<BookDto> getMyListings(String email, String status) {
         User user = findUserByEmail(email);
         if (status != null && !status.isBlank()) {
@@ -137,6 +140,7 @@ public class BookService {
     }
 
     // --- Admin ---
+    @Transactional(readOnly = true)
     public Page<BookDto> getQuarantine(Pageable pageable) {
         return bookRepository.findByStatusOrderByCreatedAtDesc(Book.BookStatus.PENDING_APPROVAL, pageable)
                 .map(BookDto::from);
