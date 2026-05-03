@@ -20,12 +20,31 @@ export const BrowseBooksPage = () => {
     const [books, setBooks] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [department, setDepartment] = useState('all');
+    const [transactionType, setTransactionType] = useState('any');
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
+    const [bookCondition, setBookCondition] = useState('any');
+    const [sortBy, setSortBy] = useState('newest');
+
+    const filters = useMemo(() => ({
+        searchTerm, department, transactionType, minPrice, maxPrice, bookCondition, sortBy
+    }), [searchTerm, department, transactionType, minPrice, maxPrice, bookCondition, sortBy]);
 
     const fetchBooks = async () => {
         try {
             setIsLoading(true);
-            const response = await bookApi.getAll({ status: 'ACTIVE' });
-            // API returns a page object, extract content
+            const apiParams = {
+                search: filters.searchTerm,
+                department: filters.department === 'all' ? null : filters.department,
+                transactionType: filters.transactionType === 'any' ? null : filters.transactionType,
+                minPrice: filters.minPrice,
+                maxPrice: filters.maxPrice,
+                condition: filters.bookCondition === 'any' ? null : filters.bookCondition,
+                sortBy: filters.sortBy
+            };
+            const response = await bookApi.getAll(apiParams);
             setBooks(response.data.content || response.data || []);
         } catch (err) {
             console.error("Failed to load books:", err);
@@ -37,67 +56,11 @@ export const BrowseBooksPage = () => {
 
     React.useEffect(() => {
         fetchBooks();
-    }, []);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [department, setDepartment] = useState('all');
-    const [transactionType, setTransactionType] = useState('any');
-    const [minPrice, setMinPrice] = useState('');
-    const [maxPrice, setMaxPrice] = useState('');
-    const [bookCondition, setBookCondition] = useState('any');
-    const [sortBy, setSortBy] = useState('newest');
+    }, [filters]);
 
     const [isFilterExpanded, setIsFilterExpanded] = useState(false);
 
-    const filteredBooks = useMemo(() => {
-        let result = [...books];
-
-        // Search
-        if (searchTerm) {
-            const lowerSearch = searchTerm.toLowerCase();
-            result = result.filter(book =>
-                book.title?.toLowerCase().includes(lowerSearch) ||
-                book.author?.toLowerCase().includes(lowerSearch) ||
-                book.courseCode?.toLowerCase().includes(lowerSearch)
-            );
-        }
-
-        // Department
-        if (department !== 'all') {
-            const prefix = department === 'cs' ? 'CS' : department === 'math' ? 'MA' : 'PH';
-            result = result.filter(book => book.courseCode?.startsWith(prefix));
-        }
-
-        // Transaction Type
-        if (transactionType !== 'any') {
-            if (transactionType === 'sale') result = result.filter(book => book.transactionType === 'SALE');
-            else if (transactionType === 'exchange') result = result.filter(book => book.transactionType === 'EXCHANGE');
-            else if (transactionType === 'donate') result = result.filter(book => book.transactionType === 'DONATION');
-        }
-
-        // Price constraints
-        if (minPrice && !isNaN(minPrice)) {
-            result = result.filter(book => book.price >= parseFloat(minPrice));
-        }
-        if (maxPrice && !isNaN(maxPrice)) {
-            result = result.filter(book => book.price <= parseFloat(maxPrice));
-        }
-
-        // Condition
-        if (bookCondition !== 'any') {
-            result = result.filter(book => book.condition === bookCondition);
-        }
-
-        // Sorting
-        if (sortBy === 'price_asc') {
-            result.sort((a, b) => a.price - b.price);
-        } else if (sortBy === 'price_desc') {
-            result.sort((a, b) => b.price - a.price);
-        } else if (sortBy === 'title_asc') {
-            result.sort((a, b) => a.title.localeCompare(b.title));
-        }
-
-        return result;
-    }, [books, searchTerm, department, transactionType, minPrice, maxPrice, bookCondition, sortBy]);
+    const filteredBooks = books;
 
     const handleClearFilters = () => {
         setSearchTerm('');

@@ -59,7 +59,7 @@ export const CreateBookPage = () => {
                 description: formData.get('description'),
                 transactionType: transactionType,
                 price: transactionType === 'DONATION' || transactionType === 'EXCHANGE' ? 0.00 : parseFloat(calculatedPrice),
-                category: 'Textbook',
+                category: formData.get('category'),
                 imageUrl: uploadedUrls.length > 0 ? uploadedUrls[0] : null,
                 imageUrls: uploadedUrls
             };
@@ -99,7 +99,18 @@ export const CreateBookPage = () => {
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <Input label="Author(s)" name="author" placeholder="e.g. Urry, Cain, Minorsky" required />
-                                <Input label="ISBN-13" name="isbn" placeholder="e.g. 978-0135188743" />
+                                <Select
+                                    label="Department / Category"
+                                    name="category"
+                                    options={[
+                                        { label: 'Select category...', value: '' },
+                                        { label: 'Computer Science', value: 'cs' },
+                                        { label: 'Mathematics', value: 'math' },
+                                        { label: 'Physics', value: 'physics' },
+                                        { label: 'Other', value: 'other' },
+                                    ]}
+                                    required
+                                />
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -118,6 +129,8 @@ export const CreateBookPage = () => {
                                 />
                                 <Input label="Course Code" name="course" placeholder="e.g. BIO101" required />
                             </div>
+
+                            <Input label="ISBN-13" name="isbn" placeholder="e.g. 978-0135188743" />
 
                             <Textarea
                                 label="Description & Notes"
